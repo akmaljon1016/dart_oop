@@ -1,7 +1,6 @@
-import 'package:dart_oop/dars.dart';
-import 'package:dart_oop/ikkinchi_oyna.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'inson.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,49 +16,67 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<String> ismlar = [];
-  TextEditingController txtController = TextEditingController();
+  TextEditingController ismController = TextEditingController();
+  TextEditingController familiyaController = TextEditingController();
+  List<Inson> insonlar = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Home Page"),
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: txtController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), hintText: "Ism"),
-              ),
+      appBar: AppBar(
+        title: Text("Vazifa"),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: ismController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), hintText: "Ism"),
             ),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  ismlar.add(txtController.value.text);
-                });
-              },
-              child: Text("Saqla"),
-              color: Colors.green,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: familiyaController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), hintText: "familiya"),
             ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: ismlar.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.all(10),
-                      color: Colors.green[200],
-                      width: MediaQuery.of(context).size.width,
-                      height: 80,
-                      child: Text(ismlar[index]),
-                    );
-                  }),
-            )
-          ],
-        ));
+          ),
+          MaterialButton(
+            onPressed: () {
+              Inson inson = Inson(
+                  ism: ismController.value.text,
+                  familiya: familiyaController.value.text);
+              setState(() {
+                insonlar.add(inson);
+              });
+            },
+            child: Text("Saqlash"),
+            color: Colors.blue,
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: insonlar.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width,
+                    height: 80,
+                    color: Colors.green,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(insonlar[index].ism),
+                        Text(insonlar[index].familiya),
+                      ],
+                    ),
+                  );
+                }),
+          )
+        ],
+      ),
+    );
   }
 }
